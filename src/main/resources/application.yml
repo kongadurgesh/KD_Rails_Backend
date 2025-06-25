@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: demo
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    username: HR
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  cache:
+    type: simple
+  messages:
+    basename: ValidationMessages
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+server:
+  port: 8080
