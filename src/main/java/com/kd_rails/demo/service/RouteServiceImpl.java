@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kd_rails.demo.dto.RouteDTO;
 import com.kd_rails.demo.entity.Route;
+import com.kd_rails.demo.exception.InvalidRouteException;
 import com.kd_rails.demo.exception.RouteAlreadyExistsException;
 import com.kd_rails.demo.repository.RouteRepository;
 import com.kd_rails.demo.utility.RouteMapper;
@@ -25,7 +26,10 @@ public class RouteServiceImpl implements RouteService {
         log.info("Creating Route with source: {}, destination: {}", routeDTO.getSource(), routeDTO.getDestination());
 
         if (routeRepository.existsBySourceAndDestination(routeDTO.getSource(), routeDTO.getDestination())) {
-            throw new RouteAlreadyExistsException("{route.exists}");
+            throw new RouteAlreadyExistsException(routeDTO.getSource(), routeDTO.getDestination());
+        }
+        if (routeDTO.getSource().equalsIgnoreCase(routeDTO.getDestination())) {
+            throw new InvalidRouteException(routeDTO.getSource());
         }
         Route route = RouteMapper.toEntity(routeDTO);
         Route savedRoute = routeRepository.save(route);
