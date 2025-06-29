@@ -15,10 +15,10 @@ public class RouteDTO {
     private Integer routeId;
 
     @NotBlank(message = "Source cannot be blank")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Source can contain only alphabets")
+    @Pattern(regexp = "^[A-Za-z]+( [A-Za-z]+)*$", message = "Source can contain only alphabets")
     private String source;
 
     @NotBlank(message = "Destination cannot be blank")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Destination can contain only alphabets")
+    @Pattern(regexp = "^[A-Za-z]+( [A-Za-z]+)*$", message = "Destination can contain only alphabets")
     private String destination;
 }
