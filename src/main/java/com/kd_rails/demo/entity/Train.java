@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -30,8 +29,7 @@ import lombok.NoArgsConstructor;
 public class Train {
     @Id
     @Column(name = "train_id")
-    @GeneratedValue(strategy = GenerationType.UUID, generator = "train_sequence_generator")
-    @SequenceGenerator(name = "train_sequence_generator", sequenceName = "train_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer trainId;
 
     @NotBlank(message = "Train name cannot be blank")
@@ -52,5 +50,6 @@ public class Train {
 
     @NotNull(message = "Route ID cannot be blank")
     @Digits(integer = 3, fraction = 0, message = "Route ID should be a 3 digit number")
+    @Column(name = "route_id")
     private Integer routeID;
 }

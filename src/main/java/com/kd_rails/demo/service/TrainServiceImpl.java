@@ -1,5 +1,7 @@
 package com.kd_rails.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,4 +40,10 @@ public class TrainServiceImpl implements TrainService {
         return TrainMapper.toDTO(savedTrain);
     }
 
+    @Override
+    public List<TrainDTO> getTrainsFromRoute(Integer routeId) {
+        log.info("Fetching Trains with Route ID as :{}", routeId);
+
+        return trainRepository.getAllTrainsForRouteId(routeId).stream().map(train -> TrainMapper.toDTO(train)).toList();
+    }
 }

@@ -2,11 +2,16 @@ spring:
   application:
     name: demo
   datasource:
-    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
-    username: HR
-    password: password
-    driver-class-name: oracle.jdbc.OracleDriver
+    # url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    # username: HR
+    # password: password
+    # driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:mysql://localhost:3306/rails_demo
+    username: root
+    password: KD@root#1023
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
