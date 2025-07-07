@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,8 +22,7 @@ import lombok.NoArgsConstructor;
 public class Route {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "route_sequence_gen")
-    @SequenceGenerator(name = "route_sequence_gen", sequenceName = "route_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "route_id")
     private Integer routeId;
 
