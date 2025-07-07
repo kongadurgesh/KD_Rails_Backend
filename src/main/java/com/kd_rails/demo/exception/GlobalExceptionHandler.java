@@ -85,4 +85,22 @@ public class GlobalExceptionHandler {
                                 .build();
                 return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
         }
+
+        @ExceptionHandler(InvalidInputRouteException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidInputRouteException(
+                        InvalidInputRouteException invalidInputRouteException, HttpServletRequest httpServletRequest,
+                        Locale locale) {
+                String errorMessage = messageSource.getMessage("error.route_invalid_route_input",
+                                new Object[] { invalidInputRouteException.getRouteId() }, locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .message(errorMessage)
+                                .error("Invalid Route ID")
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
 }

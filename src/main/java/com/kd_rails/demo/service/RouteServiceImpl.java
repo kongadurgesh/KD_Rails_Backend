@@ -9,6 +9,7 @@ import com.kd_rails.demo.dto.RouteDTO;
 import com.kd_rails.demo.dto.RouteDetailsDTO;
 import com.kd_rails.demo.dto.TrainDTO;
 import com.kd_rails.demo.entity.Route;
+import com.kd_rails.demo.exception.InvalidInputRouteException;
 import com.kd_rails.demo.exception.InvalidRouteException;
 import com.kd_rails.demo.exception.RouteAlreadyExistsException;
 import com.kd_rails.demo.exception.RouteDoesNotExistException;
@@ -53,7 +54,7 @@ public class RouteServiceImpl implements RouteService {
         try {
             routeIdInteger = Integer.parseInt(routeId);
         } catch (Exception e) {
-            throw new InvalidRouteException(routeId);
+            throw new InvalidInputRouteException(routeId);
         }
 
         Route route = routeRepository.findById(routeIdInteger)
