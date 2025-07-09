@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.kd_rails.demo.dto.TrainDTO;
 import com.kd_rails.demo.entity.Train;
+import com.kd_rails.demo.exception.NoTrainsRunningFromSourceAndDestination;
 import com.kd_rails.demo.exception.RouteDoesNotExistException;
 import com.kd_rails.demo.exception.TrainAlreadyExistsException;
 import com.kd_rails.demo.repository.RouteRepository;
 import com.kd_rails.demo.repository.TrainRepository;
+import com.kd_rails.demo.utility.RouteUtils;
 import com.kd_rails.demo.utility.TrainMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +47,25 @@ public class TrainServiceImpl implements TrainService {
         log.info("Fetching Trains with Route ID as :{}", routeId);
 
         return trainRepository.getAllTrainsForRouteId(routeId).stream().map(train -> TrainMapper.toDTO(train)).toList();
+    }
+
+    @Override
+    public List<TrainDTO> getTrainsFromSourceToDestination(String source, String destination) {
+        log.info("Fetching Trains from source: {} and destination: {}", source, destination);
+
+        RouteUtils.validate(source, destination);
+
+        if (!routeRepository.existsBySourceAndDestination(source, destination)) {
+            throw new NoTrainsRunningFromSourceAndDestination(source, destination);
+        }
+
+        Integer routeId = routeRepository.findBySourceAndDestination(source, destination).get(0).getRouteId();
+
+        List<TrainDTO> trainDTOs = getTrainsFromRoute(routeId);
+
+        if (trainDTOs.isEmpty()) {
+            throw new NoTrainsRunningFromSourceAndDestination(source, destination);
+        }
+        return trainDTOs;
     }
 }

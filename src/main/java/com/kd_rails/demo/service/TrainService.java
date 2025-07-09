@@ -11,4 +11,6 @@ public interface TrainService {
     TrainDTO createTrain(TrainDTO trainDTO);
 
     List<TrainDTO> getTrainsFromRoute(Integer routeId);
+
+    List<TrainDTO> getTrainsFromSourceToDestination(String source, String destination);
 }
