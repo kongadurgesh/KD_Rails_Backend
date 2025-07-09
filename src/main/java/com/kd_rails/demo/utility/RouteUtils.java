@@ -1,6 +1,7 @@
 package com.kd_rails.demo.utility;
 
 import com.kd_rails.demo.exception.EmptySourceAndDestinationException;
+import com.kd_rails.demo.exception.InvalidInputRouteException;
 import com.kd_rails.demo.exception.InvalidInputSourceAndDestinationException;
 
 public class RouteUtils {
@@ -38,6 +39,14 @@ public class RouteUtils {
 
         else if (!RouteUtils.validateSourceAndDestination(source, destination)) {
             throw new InvalidInputSourceAndDestinationException(source, destination);
+        }
+    }
+
+    public static Integer validateRouteId(String routeId) {
+        try {
+            return Integer.parseInt(routeId);
+        } catch (Exception e) {
+            throw new InvalidInputRouteException(routeId);
         }
     }
 }

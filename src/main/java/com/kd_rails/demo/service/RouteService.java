@@ -10,4 +10,6 @@ public interface RouteService {
     RouteDTO createRoute(RouteDTO routeDTO);
 
     RouteDetailsDTO getRouteDetails(String routeId);
+
+    RouteDTO updateRoute(String routeId, RouteDTO routeDTO);
 }
