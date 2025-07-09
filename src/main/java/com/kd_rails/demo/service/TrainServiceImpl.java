@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kd_rails.demo.dto.TrainDTO;
+import com.kd_rails.demo.entity.Route;
 import com.kd_rails.demo.entity.Train;
 import com.kd_rails.demo.exception.NoTrainsRunningFromSourceAndDestination;
 import com.kd_rails.demo.exception.RouteDoesNotExistException;
@@ -55,17 +56,15 @@ public class TrainServiceImpl implements TrainService {
 
         RouteUtils.validate(source, destination);
 
-        if (!routeRepository.existsBySourceAndDestination(source, destination)) {
-            throw new NoTrainsRunningFromSourceAndDestination(source, destination);
-        }
+        Route route = routeRepository.findFirstBySourceAndDestination(source, destination)
+                .orElseThrow(() -> new NoTrainsRunningFromSourceAndDestination(source, destination));
 
-        Integer routeId = routeRepository.findBySourceAndDestination(source, destination).get(0).getRouteId();
-
-        List<TrainDTO> trainDTOs = getTrainsFromRoute(routeId);
+        List<TrainDTO> trainDTOs = getTrainsFromRoute(route.getRouteId());
 
         if (trainDTOs.isEmpty()) {
             throw new NoTrainsRunningFromSourceAndDestination(source, destination);
         }
+
         return trainDTOs;
     }
 }
