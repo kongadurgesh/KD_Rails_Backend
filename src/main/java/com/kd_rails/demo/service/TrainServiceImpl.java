@@ -89,4 +89,28 @@ public class TrainServiceImpl implements TrainService {
         trainRepository.deleteTrainByRouteId(trainIdInteger, routeIdInteger);
     }
 
+    @Override
+    public TrainDTO updateTrainInRoute(String routeId, String trainId, TrainDTO trainDTO) {
+        Integer routeIdInteger = RouteUtils.validateRouteId(routeId);
+        Integer trainIdInteger = TrainUtils.validateTrainId(trainId);
+
+        if (!routeRepository.existsById(routeIdInteger)) {
+            throw new RouteDoesNotExistException(routeIdInteger);
+        }
+
+        Train toUpdate = trainRepository.findByTrainIdAndRouteID(trainIdInteger, routeIdInteger)
+                .orElseThrow(() -> new TrainNotRunningInRouteException(trainIdInteger, routeIdInteger));
+
+        Train updateTrain = TrainMapper.toEntity(trainDTO);
+
+        toUpdate.setTrainName(updateTrain.getTrainName());
+        toUpdate.setArrivalTime(updateTrain.getArrivalTime());
+        toUpdate.setDepartureTime(updateTrain.getDepartureTime());
+        toUpdate.setFare(updateTrain.getFare());
+
+        Train updatedTrain = trainRepository.save(toUpdate);
+
+        return TrainMapper.toDTO(updatedTrain);
+    }
+
 }

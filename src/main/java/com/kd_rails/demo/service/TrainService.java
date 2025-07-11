@@ -15,4 +15,6 @@ public interface TrainService {
     List<TrainDTO> getTrainsFromSourceToDestination(String source, String destination);
 
     void deleteTrainFromRoute(String trainId, String routeId);
+
+    TrainDTO updateTrainInRoute(String routeId, String trainId, TrainDTO trainDTO);
 }
