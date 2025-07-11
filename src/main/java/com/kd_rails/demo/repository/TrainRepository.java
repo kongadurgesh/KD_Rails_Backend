@@ -1,6 +1,7 @@
 package com.kd_rails.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,6 @@ public interface TrainRepository extends JpaRepository<Train, Integer> {
     void deleteTrainByRouteId(@Param("train_id") Integer trainId, @Param("route_id") Integer routeId);
 
     boolean existsByTrainIdAndRouteID(Integer trainId, Integer routeId);
+
+    Optional<Train> findByTrainIdAndRouteID(Integer trainId, Integer routeId);
 }
