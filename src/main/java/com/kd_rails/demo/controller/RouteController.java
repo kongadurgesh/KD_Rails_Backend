@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,5 +39,13 @@ public class RouteController {
         RouteDetailsDTO routeDetailsDTO = routeService.getRouteDetails(routeId);
 
         return new ResponseEntity<>(routeDetailsDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/{routeId}")
+    public ResponseEntity<RouteDTO> updateRoute(@PathVariable String routeId,
+            @Valid @RequestBody RouteDTO routeDTO) {
+        log.info("Recieved Request by controller to update Route Details");
+        RouteDTO updatedDTO = routeService.updateRoute(routeId, routeDTO);
+        return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
     }
 }

@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<ErrorResponse> handleInvalidInputRouteException(
                         InvalidInputRouteException invalidInputRouteException, HttpServletRequest httpServletRequest,
                         Locale locale) {
-                String errorMessage = messageSource.getMessage("error.route_invalid_route_input",
+                String errorMessage = messageSource.getMessage("error.route.invalid_route_input",
                                 new Object[] { invalidInputRouteException.getRouteId() }, locale);
 
                 ErrorResponse errorResponse = ErrorResponse.builder()
@@ -101,6 +101,121 @@ public class GlobalExceptionHandler {
                                 .timeStamp(LocalDateTime.now())
                                 .build();
 
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(InvalidInputSourceAndDestinationException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidInputSourceAndDestinationException(
+                        InvalidInputSourceAndDestinationException invalidInputSourceAndDestinationException,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage("error.route.invalid_source_and_destination",
+                                new Object[] { invalidInputSourceAndDestinationException.getSource(),
+                                                invalidInputSourceAndDestinationException.getDestination() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("Invalid Source and Destination")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(EmptySourceAndDestinationException.class)
+        public ResponseEntity<ErrorResponse> handleEmptySourceAndDestinationException(
+                        EmptySourceAndDestinationException emptySourceAndDestinationException,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage("error.route.empty_source_or_destination",
+                                new Object[] { emptySourceAndDestinationException.getMessage() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("Empty Source or Destination")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(NoTrainsRunningFromSourceAndDestination.class)
+        public ResponseEntity<ErrorResponse> handleNoTrainsRunningFromSourceAndDestination(
+                        NoTrainsRunningFromSourceAndDestination noTrainsRunningFromSourceAndDestination,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage(
+                                "error.route.no_trains_running_from_source_to_destination",
+                                new Object[] { noTrainsRunningFromSourceAndDestination.getSource(),
+                                                noTrainsRunningFromSourceAndDestination.getDestination() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("No Trains found")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(NoTrainsRunningInRouteException.class)
+        public ResponseEntity<ErrorResponse> handleNoTrainsRunningInRoute(
+                        NoTrainsRunningInRouteException noTrainsRunningInRouteException,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage(
+                                "error.route.no_trains_running_in_route",
+                                new Object[] { noTrainsRunningInRouteException.getRouteId() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("No Trains running in the Route")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(TrainNotRunningInRouteException.class)
+        public ResponseEntity<ErrorResponse> handleTrainNotRunningInRoute(
+                        TrainNotRunningInRouteException trainNotRunningInRouteException,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage(
+                                "error.route.train_id_not_exist_in_route",
+                                new Object[] { trainNotRunningInRouteException.getTrainId(),
+                                                trainNotRunningInRouteException.getRouteId() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("Train does not exist in the Route")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
+                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(InvalidInputTrainIdException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidInputTrainIdException(
+                        InvalidInputTrainIdException invalidInputTrainIdException,
+                        HttpServletRequest httpServletRequest, Locale locale) {
+                String errorMessage = messageSource.getMessage(
+                                "error.train.train_id_does_not_exist",
+                                new Object[] { invalidInputTrainIdException.getTrainId() },
+                                locale);
+
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                                .error("Train does not exist")
+                                .message(errorMessage)
+                                .path(httpServletRequest.getRequestURI())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .timeStamp(LocalDateTime.now())
+                                .build();
                 return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 }

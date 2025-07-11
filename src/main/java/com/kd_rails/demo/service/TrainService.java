@@ -10,5 +10,9 @@ import com.kd_rails.demo.dto.TrainDTO;
 public interface TrainService {
     TrainDTO createTrain(TrainDTO trainDTO);
 
-    List<TrainDTO> getTrainsFromRoute(Integer routeId);
+    List<TrainDTO> getTrainsFromRoute(String routeId);
+
+    List<TrainDTO> getTrainsFromSourceToDestination(String source, String destination);
+
+    void deleteTrainFromRoute(String trainId, String routeId);
 }
