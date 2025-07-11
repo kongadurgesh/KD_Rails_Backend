@@ -42,7 +42,8 @@ public class RouteController {
     }
 
     @PutMapping("/{routeId}")
-    public ResponseEntity<RouteDTO> updateRoute(@PathVariable String routeId, @Valid @RequestBody RouteDTO routeDTO) {
+    public ResponseEntity<RouteDTO> updateRoute(@PathVariable String routeId,
+            @Valid @RequestBody RouteDTO routeDTO) {
         log.info("Recieved Request by controller to update Route Details");
         RouteDTO updatedDTO = routeService.updateRoute(routeId, routeDTO);
         return new ResponseEntity<>(updatedDTO, HttpStatus.OK);

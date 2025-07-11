@@ -44,7 +44,10 @@ public class RouteUtils {
 
     public static Integer validateRouteId(String routeId) {
         try {
-            return Integer.parseInt(routeId);
+            if (routeId.length() == 3)
+                return Integer.parseInt(routeId);
+            else
+                throw new InvalidInputRouteException(routeId);
         } catch (Exception e) {
             throw new InvalidInputRouteException(routeId);
         }

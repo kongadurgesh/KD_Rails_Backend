@@ -10,6 +10,7 @@ import com.kd_rails.demo.dto.RouteDetailsDTO;
 import com.kd_rails.demo.dto.TrainDTO;
 import com.kd_rails.demo.entity.Route;
 import com.kd_rails.demo.exception.InvalidRouteException;
+import com.kd_rails.demo.exception.NoTrainsRunningInRouteException;
 import com.kd_rails.demo.exception.RouteAlreadyExistsException;
 import com.kd_rails.demo.exception.RouteDoesNotExistException;
 import com.kd_rails.demo.repository.RouteRepository;
@@ -54,7 +55,11 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeRepository.findById(routeIdInteger)
                 .orElseThrow(() -> new RouteDoesNotExistException(routeIdInteger));
 
-        List<TrainDTO> trains = trainService.getTrainsFromRoute(routeIdInteger);
+        List<TrainDTO> trains = trainService.getTrainsFromRoute(routeIdInteger.toString());
+
+        if (trains.isEmpty()) {
+            throw new NoTrainsRunningInRouteException(routeIdInteger);
+        }
 
         RouteDetailsDTO routeDetailsDTO = RouteDetailsDTO.builder()
                 .source(route.getSource())
